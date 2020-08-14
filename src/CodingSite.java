@@ -29,7 +29,7 @@ public class CodingSite {
 		this.url = url;
 		challenges =new ArrayList<Challenge>();
 	}
-	public void extractSubmissions() throws IOException, ParseException {
+	public void extractSubmissionsFromFile() throws IOException, ParseException {
 		Object obj = new JSONParser().parse(new FileReader("H:\\workspace\\eclipse-workspace\\CodingAggregate\\src\\Leetcode.json"));
 		JSONObject jsonobj = (JSONObject)obj;
 		long numsol = (long) jsonobj.get("num_solved");
@@ -48,19 +48,21 @@ public class CodingSite {
 		while(it.hasNext()) {
 			JSONObject o = (JSONObject) it.next();
 			JSONObject inner =(JSONObject) o.get("stat");
+			JSONObject dif =(JSONObject) o.get("difficulty");
 			boolean b=true;
 			String t = (String)o.get("status");
 			if(t==null) {
 				b=false;
 			}
-			Challenge c = new Challenge(this,(String)inner.get("question__title"),b);
+			long difficulty =(long)dif.get("level");
+			Challenge c = new Challenge(this,(String)inner.get("question__title"),b,(int)difficulty);
 			challenges.add(c);
 		}
 	}
 	public void getSolvedChallenges() {
 		for(Challenge c : challenges) {
 			if(c.solved) {
-				System.out.println(c.name);
+				System.out.println(c.name + " " + c.difficulty);
 			}
 		}
 	}
