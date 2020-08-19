@@ -50,6 +50,7 @@ public class Hackerrank implements CodingSite {
 		}	
 	}
 	public String getPageContent(URL url) throws IOException {
+		//read input from url change methodname
 		URL obj = new URL(url.toString());
 		con= (HttpURLConnection) obj.openConnection();
 		con.setRequestMethod("GET");
